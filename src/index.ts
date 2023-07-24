@@ -19,27 +19,30 @@ type RecursiveDeepRequireByKey<T, K> = {
 };
 
 type UnionToIntersection<T> = (T extends any ? (x: T) => void : never) extends (
-  x: infer R
+  x: infer R,
 ) => void
   ? R
   : never;
 
 type DeepRequireByKey<
   T,
-  K extends Path<DeepRequired<T>>
+  K extends Path<DeepRequired<T>>,
 > = K extends `${infer P}.${string}`
   ? P extends keyof T
     ? RecursiveDeepRequireByKey<Required<T>, K>
     : RecursiveDeepRequireByKey<T, K>
   : RecursiveDeepRequireByKey<T, K>;
 
-export function hasProperties<T extends Record<string, any>, K extends Path<DeepRequired<T>>[]>(
+export function hasProperties<
+  T extends Record<string, any>,
+  K extends Path<DeepRequired<T>>[],
+>(
   obj: T,
   ...args: K
 ): obj is UnionToIntersection<DeepRequireByKey<T, K[number]>> & T {
   for (const arg of args) {
     // eslint-disable-next-line unicorn/no-array-reduce
-    if (!(arg as string).split('.').reduce((o, i) => o?.[i], obj)) {
+    if (!(arg as string).split(".").reduce((o, i) => o?.[i], obj)) {
       return false;
     }
   }

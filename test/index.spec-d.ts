@@ -5,17 +5,17 @@ describe("hasProperties", () => {
   it("should generate paths correctly", () => {
     const obj = { a: { b: { c: 1 } } };
 
-    assertType<Path<typeof obj>>('a')
-    assertType<Path<typeof obj>>('a.b')
-    assertType<Path<typeof obj>>('a.b.c')
+    assertType<Path<typeof obj>>("a");
+    assertType<Path<typeof obj>>("a.b");
+    assertType<Path<typeof obj>>("a.b.c");
     // @ts-expect-error key "d" does not exist
-    assertType<Path<typeof obj>>('a.b.c.d')
-  })
+    assertType<Path<typeof obj>>("a.b.c.d");
+  });
 
   it("should have correct type when defined", () => {
     const obj = { a: { b: { c: 1 } } };
 
-    if(hasProperties(obj, "a.b.c")) {
+    if (hasProperties(obj, "a.b.c")) {
       assertType<number>(obj.a.b.c);
     }
   });
@@ -29,7 +29,7 @@ describe("hasProperties", () => {
       };
     } = { a: { b: {} } };
 
-    if(hasProperties(obj, "a.b.c")) {
+    if (hasProperties(obj, "a.b.c")) {
       assertType<number>(obj.a.b.c);
     }
   });
@@ -43,7 +43,7 @@ describe("hasProperties", () => {
       };
     } = { a: { b: {} } };
 
-    if(hasProperties(obj, "a.b")) {
+    if (hasProperties(obj, "a.b")) {
       assertType<number | undefined>(obj.a.b.c);
     }
   });
@@ -56,11 +56,11 @@ describe("hasProperties", () => {
         };
         d?: {
           e: string;
-        }
+        };
       };
     } = { a: { b: {} } };
 
-    if(hasProperties(obj, "a.b")) {
+    if (hasProperties(obj, "a.b")) {
       assertType<number | undefined>(obj.a.b.c);
       assertType<string | undefined>(obj.a.d.e);
     }
